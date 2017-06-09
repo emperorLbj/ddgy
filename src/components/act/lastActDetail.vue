@@ -27,7 +27,7 @@
 		
 		<div class="_line"  style="height:15px;"></div>
 			<div  style="width:90%;margin-left:5%;margin-top:10px;">
-				<img v-bind:src="a" v-for='a in ite' style="width:100%;height:300px;" />
+				<img v-bind:src="a" v-for='a in ite' style="width:25%;" @click='fangda(a)' />
 			</div>
 			
 		
@@ -84,6 +84,12 @@
 	
 
 
+<div style="width:100%;height:100%;opacity:1;z-index:99;position:fixed;top:0;left:0" v-if='fang' @click='fang=!fang'>
+
+      <img :src="fangdahou" style="display:inline;width:80%;margin-left:10%;margin-top:10%">
+
+    </div>
+
 	</div>
 </template>
 
@@ -106,6 +112,8 @@
 				isShow2:true,
 				itemssr:[],
 				ite:[],
+				fangdahou:'',
+				fang:false,
 			}
 		},
 		created(){
@@ -123,6 +131,11 @@
 			})
 		},
 		methods:{
+			//点击放大功能
+			fangda:function(a){
+				this.fangdahou=a
+				this.fang=true
+			},
 
 			//转义字符转换器
 			escape2Html:function (str) {

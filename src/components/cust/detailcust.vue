@@ -66,7 +66,7 @@
       {{index}}
       <div style="margin-left:10px;">{{work.workcontent}}</div>
      
-        <img :src="a" v-for='a in imgArr[index]' class='imgs'>
+        <img :src="a" v-for='a in imgArr[index]' class='imgs' @click="fangda(a)">
       
      <!--  <img :src="work.workimage" v-if='work.workimage' width="95%" height="230px" style="margin-left:2.5%" /> -->
      
@@ -74,9 +74,12 @@
 
   
   </div>
+           <div style="width:100%;height:100%;opacity:1;z-index:99;position:fixed;top:0;left:0" v-if='fang' @click='fang=!fang'>
 
+                 <img :src="fangdahou" style="display:inline;width:80%;margin-left:10%;margin-top:10%">
 
-
+               </div>
+        
 
 <div class="bgDiv" v-if='b' @click='b=!b'></div>
     
@@ -97,7 +100,8 @@
         b:false,
         img:'',
         imgArr:[],
-
+        fangdahou:'',
+        fang:false,
 			}
 		},
 		created(){
@@ -112,6 +116,10 @@
 		},
 
 		methods:{
+          fangda:function(a){
+            this.fangdahou=a
+            this.fang=true
+          },
           
           deleteWork:function(wid){
 
