@@ -1,5 +1,5 @@
 /*定义API常量*/
-export const IP ='http://localhost:8090/api/'
+export const IP ='http://192.168.1.112:8090/api/'
 export const  API={
 	LoginSendYzm:IP+'LoginSendYzm',
 	login:IP+"login",
