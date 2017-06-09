@@ -57,16 +57,21 @@
     </div>
    
   
-    <div v-for="work in works">
+    <div v-for="(work,index) in works">
     <div class="_line" style="height:8px"></div>
       <div style="width:100%;height:45px;line-height: 45px;" >
         <span style="display: block;position: absolute;left:10px;">{{work.worktime}}</span><span style="position:absolute;right: 15px;"> <img src="../../assets/common/images/delete.png" @click='deleteWork(work.workid)'></span>
       </div>
       <div class="_line"></div>
+      {{index}}
       <div style="margin-left:10px;">{{work.workcontent}}</div>
-      <img :src="work.workimage" width="95%" height="230px" style="margin-left:2.5%" />
+     
+        <img :src="a" v-for='a in imgArr[index]' class='imgs'>
+      
+     <!--  <img :src="work.workimage" v-if='work.workimage' width="95%" height="230px" style="margin-left:2.5%" /> -->
      
     </div>
+
   
   </div>
 
@@ -91,14 +96,18 @@
         token:'',
         b:false,
         img:'',
+        imgArr:[],
+
 			}
 		},
 		created(){
+      var _this=this
       this.token=localStorage.getItem('token')
 			       this.id=this.$route.params.ids;
              this.$nextTick(function(){
            		
-                this.goCustomerDetail(this.id);
+                _this.goCustomerDetail(this.id);
+               
            })
 		},
 
@@ -211,13 +220,27 @@
               //跳转到列表页面
               this.$router.push('../cust');
           },
+        bianli(){
+          var _this=this;
+            //console.log(_this.works)
+          var i= this.works.length
+         // alert(i)
+           for(var j=0;j<i;j++){
+          //  console(j)
+            console.log(_this.works[j])
+           _this.imgArr[j]=JSON.parse(_this.escape2Html(_this.works[j].workimage))
+
+           }
+          // console.log(_this.imgArr[0][0])
+
+          },
 	     
 	      goCustomerDetail:function(cid){
         		//this.$router.push('noticeDetail')
         		//发送http请求，获取对应的noticeEntity对象，然后将entity对象的值绑定到详情里面
 
         		console.log("cid==="+cid);
-        		var _this = this;
+        		var _this = this
             axios.get(API.customerDetailByCustId,
             {
     					params: {
@@ -227,14 +250,15 @@
              } )
               .then(function (response) {
                   
-                	console.log(response);
+                	//console.log(response);
                 	//_this.custEntity = response.data.data;
 
                   _this.custEntity = response.data.data.customer;//客户详情
-                  _this.works = response.data.data.list;//工作记录            
+                  _this.works = response.data.data.list;//工作记录  
+                 // console.log(_this.works)          
                   _this.employeeEntity = response.data.data.employee;//客户的员工详情
-                  
-          
+                  _this.bianli()
+               
               })
               .catch(function (error) {
                   console.log(error);
@@ -322,7 +346,9 @@
       bottom: 0;
   }
 
-
+.imgs{
+  width:100px;
+}
 
 
 

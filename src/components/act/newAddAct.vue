@@ -55,9 +55,19 @@
 		
 
 		<div class="_line"></div>
-		<div style="width:100%;height:45px;line-height: 45px;">
+		<!-- <div style="width:100%;height:45px;line-height: 45px;">
 			<span style="display: block;position: absolute;left:10px;">上传图片：</span><span style="position:absolute;right: 10px;"><input type="file" name="pic" style="border:0px;text-align:right;" id="file" /></span>
+		</div> -->
+
+		<div v-for="(item, index) in ite"  style='display:inline-block ;width:100px;height:100px;overflow:hidden;line-height:150px'  @click='rmar(index)'>
+			<img v-bind:src="item" style='width:100px'>
+			{{ index }} 
 		</div>
+
+		<a  class="file" style='display:inline-block;width:100px;height:100px'>
+		    <input type="file" name="" id="file" accept= "image/*" capture= "camera">
+		</a>
+
 
 		
 		
@@ -139,7 +149,7 @@ export default({
 				empname:'请选择' ,               //审核人姓名
 				userid:'',
 				imgUrl:'',
-
+				ite:[],
 			}
 			},
 
@@ -148,9 +158,9 @@ export default({
 			
 					this.entid = this.$route.params.entid;
 					this.token=localStorage.getItem('token')
-					console.log(_this.token)
+					//console.log(_this.token)
 		            this.$nextTick(function(){
-		   _this.listener()
+		   				_this.listener()
 		            	_this.initDom();
 		            	_this.getStartTime();
 		            	_this.getEndTime();
@@ -166,7 +176,13 @@ export default({
 					}
 				},*/
 		methods:{
-
+			//点击删除选择图片
+			rmar:function(i){
+				//console.log(i)
+				this.items.splice(i,1)
+			
+			},
+			//添加选择图片时间监听
 			listener:function(){
 					var _this=this
 					document.getElementById('file').addEventListener('change', function() {
@@ -195,13 +211,14 @@ export default({
 					        _this.imgUrl=dataUrl
 					        //console.log(_this.imgUrl)
 
-					       // _this.items.push(dataUrl)
+					        _this.ite.push(dataUrl)
 					        // 上传略
 					       //document.write(dataUrl)
 					    }
 					    img.src = res;
 					}
 				},
+				//mui选择器
 				initDom:function(){
 					var _this = this ;
                  (function($, doc) {
@@ -338,10 +355,10 @@ export default({
 				this.actpublishtime = now;*/
 
 				//还要判断审批人是否为空
-				console.log(_this.msg)
-				console.log(_this.actstarttime)
-				console.log(_this.actendtime)
-				console.log(_this.acttime)
+				//console.log(_this.msg)
+				//console.log(_this.actstarttime)
+				//console.log(_this.actendtime)
+				//console.log(_this.acttime)
 				
 				if(_this.msg=='请选择'||_this.actstarttime==''||_this.actendtime==''||_this.acttime==''){
 					alert("请按规则填写表格!");
@@ -386,7 +403,7 @@ export default({
 				})*/
 				var d = new Date()
 				var to=localStorage.getItem('token')
-				
+					var o=JSON.stringify(_this.ite)
 
 					var param = new URLSearchParams()
 					param.append('token',to)
@@ -396,7 +413,7 @@ export default({
 					param.append('actdays',_this.acttime)
 					param.append('actreason',_this.actreason)
 					param.append('acttype',_this.msg)
-					param.append('actaddress',_this.imgUrl)
+					param.append('actaddress',o)
 					param.append('actchecker',_this.empid)
 
 				//var formData = new FormData(document.getElementById("frm1"));
@@ -407,7 +424,7 @@ export default({
 				)
 				.then(function(response){
 					if(response.data.code == 0){
-						alert("保存成功!");
+						mui.toast("保存成功!");
 						_this.$router.push('/newActivityList');
 					}
 				})

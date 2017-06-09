@@ -27,7 +27,7 @@
 		
 		<div class="_line"  style="height:15px;"></div>
 			<div  style="width:90%;margin-left:5%;margin-top:10px;">
-				<img v-bind:src="item.actAddress" style="width:100%;height:300px;" />
+				<img v-bind:src="a" v-for='a in ite' style="width:100%;height:300px;" />
 			</div>
 			
 		
@@ -105,6 +105,7 @@
 				actchecker:'',
 				isShow2:true,
 				itemssr:[],
+				ite:[],
 			}
 		},
 		created(){
@@ -122,6 +123,13 @@
 			})
 		},
 		methods:{
+
+			//转义字符转换器
+			escape2Html:function (str) {
+			 var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
+			 return str.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
+			},
+
 			//返回按钮
 			goback:function(){
 				//this.$router.push('newAct');
@@ -141,9 +149,10 @@
 					//console.log(_this.item)
 					/*_this.address = response.data.data[0].list[0].actAddress;*/
 
-					console.log(_this.item)
-					
-					if(_this.address != null){
+					_this.ite=JSON.parse(_this.escape2Html(_this.item.actAddress))
+					//_this.item.actAddress
+
+					if(_this.actaddress != null){
 						_this.showPhoto = true;
 					}
 					
@@ -224,7 +233,7 @@
 				})
 				.then(function(response){
 					_this.itemssr = response.data.data;
-					console.log(_this.items)
+					//console.log(_this.items)
 				})
 				.catch(function(error){
 					console.log(error);
