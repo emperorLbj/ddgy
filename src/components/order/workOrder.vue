@@ -38,7 +38,7 @@
 			
 			<div style="width:100%;height:45px;line-height: 45px;">
 				<span class="_btn" style="position:absolute;right: 5px;margin-top:8px;margin-bottom:8px;" 
-				 v-show="item.distribution"
+				 v-show="item.distribution" 
 				@click="applyDistribution(index)">申请配送</span>
 				<span class="_btn" style="position:absolute;right: 95px;margin-top:8px;margin-bottom:8px;" v-show="item.construction"
 				@click="applyConstruction(index)">申请施工</span>	
@@ -202,13 +202,17 @@
 						      }, function(res){
 						      	console.log(res);
 						      })
-	                        },
+	                        },   
 		   applyDistribution:function(index){
 		   		var _this=this;
 		     	var btnArray = ['否', '是'];
+		     	var i=0;
 				mui.confirm('是否申请配送,确认？', '提示', btnArray, function(e) {
 					if (e.index == 1) {
-						 console.log("here")
+						i++;
+						if(i>1)
+						return;
+					console.log("11");
 						 //隐藏配送按钮
 		              _this.s[index].distribution=false;
 		              var that=_this;
@@ -227,7 +231,7 @@
 		                   that.s[index].orderState=1;
                           }
 				          }, function(res){
-                                 
+                                 mui.toast('...server error');
 		                 })
 		               }
 		               if(that.s[index].orderState==2){//此时到4状态
@@ -257,10 +261,14 @@
 		    },
 		   applyConstruction:function(index){
 		   	var _this=this;
+		   	var i=0;
              var btnArray = ['否', '是'];
 				mui.confirm('是否申请施工，确认？', '提示', btnArray, function(e) {
 					if (e.index == 1) {
 					//隐藏施工按钮
+						i++;
+						if(i>1)
+						return;
 				  	  _this.s[index].construction=false;
 				  	  var that=_this;
 				  	//施工存在的情况有3种(1未配送未施工2未施工配送中3未施工配送完成)
