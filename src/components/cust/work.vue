@@ -21,14 +21,22 @@
 		
 		<div class="_line"></div>
 		
-		<div style="width:100%;height:45px;line-height: 45px;">
+		<!-- <div style="width:100%;height:45px;line-height: 45px;">
 			<span style="display: block;position: absolute;left:10px;">上传图片：</span><span style="position:absolute;right: 10px;"><input type="hidden" name="token" :value="token"/>
 				<input type="hidden" name="workcust" :value="id"/>
 					<input type="file" name="pic" id="file"><br/></span>
-		</div>
+		</div> -->
 		</form>
-		<img v-bind:src="imgUrl" style="width:0px;height:0px;">
-		
+	
+	<div v-for="(item, index) in items"  style='display:inline-block ;width:100px;height:100px;overflow:hidden;line-height:150px'  @click='rmar(index)'>
+		<img v-bind:src="item" style='width:100px'>
+		{{ index }} 
+	</div>
+
+	<a  class="file" style='display:inline-block;width:100px;height:100px'>
+	    <input type="file" name="" id="file" accept= "image/*" capture= "camera">
+	</a>
+
 	</div>
 
 
@@ -47,7 +55,7 @@
 				imgUrl:"",
 				id:"",
 				token:'',
-				//items:[],
+				items:[],
 				imgUrl:''
 
 
@@ -65,6 +73,11 @@
             	//alert(this.id);
             })
 		},
+		/*watch:{
+items:function(){
+	alert('ok')
+}
+		},*/
 
 		methods:{
 
@@ -86,12 +99,12 @@
 					//将表单对象封装成一个js对象
 		      		//var formData=new FormData(document.getElementById("frm1"));
 		      		//设置内容类型为：multipart/form-data
-					
+					var images=JSON.stringify(_this.items)
 	            	var param = new URLSearchParams()
 
 					param.append('token',tok)
 					param.append('workcontent',ss1)
-					param.append('workimage',_this.imgUrl)
+					param.append('workimage',images)
 					param.append('workemp',cid)
 					param.append('workcust',_this.id)
 
@@ -121,41 +134,46 @@
 				 //跳转到客户详情页面必须传传参数
           		this.$router.push('../detailcust/'+id);
 			},
-			listener:function(){
-					var _this=this
-					document.getElementById('file').addEventListener('change', function() {
-					    var reader = new FileReader();
-					    reader.onload = function (e) {
-					        compress(this.result);
-					    };
-					    reader.readAsDataURL(this.files[0]);
-					}, false);
+			rmar:function(i){
+								console.log(i)
+								this.items.splice(i,1)
+							
+							},
+							listener:function(){
+								var _this=this
+								document.getElementById('file').addEventListener('change', function() {
+								    var reader = new FileReader();
+								    reader.onload = function (e) {
+								        compress(this.result);
+								    };
+								    reader.readAsDataURL(this.files[0]);
+								}, false);
 
-					var compress = function (res) {
-					    var img = new Image(),
-					        maxH = 720;
-					    img.onload = function () {
-					        var cvs = document.createElement('canvas'),
-					            ctx = cvs.getContext('2d');
-					        if(img.height > maxH) {
-					            img.width *= maxH / img.height;
-					            img.height = maxH;
-					        }
-					        cvs.width = img.width;
-					        cvs.height = img.height;
-					        ctx.clearRect(0, 0, cvs.width, cvs.height);
-					        ctx.drawImage(img, 0, 0, img.width, img.height);
-					        var dataUrl = cvs.toDataURL('image/jpeg',0.7);
-					        _this.imgUrl=dataUrl
-					        //console.log(_this.imgUrl)
+								var compress = function (res) {
+								    var img = new Image(),
+								        maxH = 720;
+								    img.onload = function () {
+								        var cvs = document.createElement('canvas'),
+								            ctx = cvs.getContext('2d');
+								        if(img.height > maxH) {
+								            img.width *= maxH / img.height;
+								            img.height = maxH;
+								        }
+								        cvs.width = img.width;
+								        cvs.height = img.height;
+								        ctx.clearRect(0, 0, cvs.width, cvs.height);
+								        ctx.drawImage(img, 0, 0, img.width, img.height);
+								        var dataUrl = cvs.toDataURL('image/jpeg',0.7);
+								       // _this.imgUrl=dataUrl
+								        //console.log(dataUrl)
 
-					       // _this.items.push(dataUrl)
-					        // 上传略
-					       //document.write(dataUrl)
-					    }
-					    img.src = res;
-					}
-				},
+								        _this.items.push(dataUrl)
+								        // 上传略
+								       //document.write(dataUrl)
+								    }
+								    img.src = res;
+								}
+							},
 
 
 		}

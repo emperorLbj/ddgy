@@ -27,7 +27,7 @@
 		
 		<div class="_line"  style="height:15px;"></div>
 			<div  style="width:90%;margin-left:5%;margin-top:10px;">
-				<img v-bind:src="item.actAddress" style="width:100%;height:300px;" />
+				<img v-bind:src="a" v-for='a in ite' style="width:25%;" @click='fangda(a)' />
 			</div>
 			
 		
@@ -84,6 +84,13 @@
 	
 
 
+<div style="width:100%;height:100%;z-index:98;position:fixed;top:0;left:0;background-color:black;opacity:0.5" v-if='fang' @click='fang=!fang'>
+
+     
+
+    </div>
+     <img :src="fangdahou" style="z-index:99;width:80%;position:absolute;left:10%;top:5%;" v-if='fang' @click='fang=!fang'>
+
 	</div>
 </template>
 
@@ -105,6 +112,9 @@
 				actchecker:'',
 				isShow2:true,
 				itemssr:[],
+				ite:[],
+				fangdahou:'',
+				fang:false,
 			}
 		},
 		created(){
@@ -122,6 +132,18 @@
 			})
 		},
 		methods:{
+			//点击放大功能
+			fangda:function(a){
+				this.fangdahou=a
+				this.fang=true
+			},
+
+			//转义字符转换器
+			escape2Html:function (str) {
+			 var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
+			 return str.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
+			},
+
 			//返回按钮
 			goback:function(){
 				//this.$router.push('newAct');
@@ -141,9 +163,10 @@
 					//console.log(_this.item)
 					/*_this.address = response.data.data[0].list[0].actAddress;*/
 
-					console.log(_this.item)
-					
-					if(_this.address != null){
+					_this.ite=JSON.parse(_this.escape2Html(_this.item.actAddress))
+					//_this.item.actAddress
+
+					if(_this.actaddress != null){
 						_this.showPhoto = true;
 					}
 					
@@ -224,7 +247,7 @@
 				})
 				.then(function(response){
 					_this.itemssr = response.data.data;
-					console.log(_this.items)
+					//console.log(_this.items)
 				})
 				.catch(function(error){
 					console.log(error);

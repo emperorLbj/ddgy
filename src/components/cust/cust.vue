@@ -19,7 +19,7 @@
 		
 	<div id="ls" style="margin-top:8px;width:100%;height:auto;background: white;" v-for="item in items" @click='custom(item.custid)'>
 		<div style="width:100%;height:45px;line-height: 45px;color:black;" >
-			<span style="display: block;position: absolute;left:10px;"><!--<img src="../images/bussiness-man.png" style=""/>-->{{item.custname}} &nbsp;&nbsp;2017-09-09 09:09:09&nbsp;&nbsp;<img src="../../assets/common/images/more16.png" style="margin-top:8px;"></span><span style="position:absolute;right: 10px;color:red;">{{item.custtype}}</span>
+			<span style="display: block;position: absolute;left:10px;"><!--<img src="../images/bussiness-man.png" style=""/>-->{{item.custname}} &nbsp;&nbsp;{{item.custtime}}&nbsp;&nbsp;<img src="../../assets/common/images/more16.png" style="margin-top:8px;"></span><span style="position:absolute;right: 10px;color:red;">{{item.custtype}}</span>
 		</div>
 		
 		<div class="_line"></div>

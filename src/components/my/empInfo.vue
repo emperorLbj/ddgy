@@ -267,6 +267,7 @@
 			
 		
         	this.usertype=sp(sessionStorage.getItem("userType"))
+        	console.log(this.emptype)
         	
         
 		}
