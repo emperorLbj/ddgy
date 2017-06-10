@@ -17,7 +17,7 @@
 		<div v-for="(item,index) in s">
 		<div style="width:100%;height:60px;">
 		<div style="width:100%;height:100px;position: absolute;right: 0px;line-height: 30px;">
-				<div style="margin-left:10px;"><img src="../../assets/common/images/map.png" style="margin-top:5px;"/><span style="margin-left:13px;">{{item.empName}} &nbsp;&nbsp;{{item.operDesc}}</span></div>
+				<div style="margin-left:10px;"><img src="../../assets/common/images/map.png" style="margin-top:5px;"/><span style="margin-left:13px;">{{item.operDesc}}&nbsp;&nbsp;{{item.bz1}}</span></div>
 				<div style="margin-left:40px;font-size:14px;">{{item.operTime}}</div>	
 			</div>	
 		</div>

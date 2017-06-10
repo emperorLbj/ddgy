@@ -206,11 +206,12 @@
             		document.getElementById("ordertype").value="1"
             	if(this.order==="维修")
             		document.getElementById("ordertype").value="2"
-            	/*if(this.actstarttime>this.actendtime){
+            	if(this.actstarttime>this.actendtime){
             		 mui.alert('开始时间需小于结束时间', '提示', function() {
 					   
 			         });
-            	}*/else{
+            	}
+            	else{
             		this.addOrder();
             	}     	
             },
