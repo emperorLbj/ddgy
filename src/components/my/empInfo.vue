@@ -143,7 +143,7 @@
 
 	import axios from 'axios'
 	import {API} from '../../static/api.js'
-//	import {sp} from '../../static/typeUtil.js'
+	import {sp} from '../../static/typeUtil.js'
 
 	export default({
 
