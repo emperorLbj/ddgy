@@ -35,21 +35,24 @@
 		
 		<div class="_line" style="height:20px;"></div>
 		<div style="width:100%;height:45px;line-height: 45px;">
-			<span style="display: block;position: absolute;left:10px;">客户姓名</span><span style="position:absolute;right: 10px;">张三</span>
+			<span style="display: block;position: absolute;left:10px;">客户姓名</span><span style="position:absolute;right: 10px;">{{customer.custname}}</span>
 		</div>
 		
 		<div class="_line"></div>
 		<div style="width:100%;height:45px;line-height: 45px;">
-			<span style="display: block;position: absolute;left:10px;">客户电话</span><span style="position:absolute;right: 10px;">18918181818</span>
+			<span style="display: block;position: absolute;left:10px;">客户电话</span><span style="position:absolute;right: 10px;">{{customer.custphone}}</span>
 		</div>
 		<div class="_line"></div>
 		<div style="width:100%;height:45px;line-height: 45px;">
-			<span style="display: block;position: absolute;left:10px;">所属区域</span><span style="position:absolute;right: 10px;">湖北 武汉 洪山</span>
+			<span style="display: block;position: absolute;left:10px;">所属区域</span><span style="position:absolute;right: 10px;">
+			{{customer.custprovince}}
+			{{customer.custcity}}
+			{{customer.custarea}}</span>
 		</div>
 		
 		<div class="_line"></div>
 		<div style="width:100%;height:45px;line-height: 45px;">
-			<span style="display: block;position: absolute;left:10px;">客户地址</span><span style="position:absolute;right: 10px;">武昌区武珞路442号</span>
+			<span style="display: block;position: absolute;left:10px;">客户地址</span><span style="position:absolute;right: 10px;">{{customer.custaddress}}</span>
 		</div>
 		
 		<div class="_line" style="height:20px;"></div>
@@ -100,7 +103,8 @@
 				order:'',
 				ordertype:'',
 			    workDetail:'',//工单备注信息
-			    token:''
+			    token:'',
+			    customer:'' //custmer info 
 			}
 		},
 		created(){
@@ -152,6 +156,7 @@
 						      	_this.order=res.data.data;
 
 						      	_this.getOrderType();
+						      	_this.getCustomerById();
 						      }, function(res){
 						      //	console.log(res);
 						      })
@@ -205,6 +210,20 @@
 
 							}
 						})               
+              },
+              getCustomerById:function(){
+                var _this=this;
+              var params = new URLSearchParams();
+			  params.append('token', _this.token);
+			  params.append('custId', _this.order.ordercust);
+              axios.post(API.getCustomerById,params)
+				      .then(function(res){
+                          _this.customer=res.data.data;
+				      }, function(){
+                         
+				      })
+                 
+
               }
           
 
