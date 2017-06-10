@@ -95,7 +95,7 @@
 			})(mui, document);
 			},
 			backs:function(){
-				this.$router.go(-1)
+				this.$router.push('my')
 			},
 
 			jobList:function(city){
