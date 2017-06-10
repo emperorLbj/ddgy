@@ -212,7 +212,7 @@
 						i++;
 						if(i>1)
 						return;
-					console.log("11");
+				//	console.log("11");
 						 //隐藏配送按钮
 		              _this.s[index].distribution=false;
 		              var that=_this;
@@ -288,7 +288,6 @@
 				          }, function(res){
                                  
 		                 })
-
 		                  
 		              }
 		              if(that.s[index].orderState==1){//此时到4状态

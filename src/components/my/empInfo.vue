@@ -122,14 +122,6 @@
 		
 		<button v-if='emp.empstate==1  '  style="width:30%;margin:10px 8%;" @click='fail'>解雇</button>	
 	</footer>
-
-
-
-
-
-
-
-
 	
 </div>
 	
@@ -143,7 +135,7 @@
 
 	import axios from 'axios'
 	import {API} from '../../static/api.js'
-//	import {sp} from '../../static/typeUtil.js'
+	import {sp} from '../../static/typeutil.js'
 
 	export default({
 
@@ -278,12 +270,6 @@
         	
         
 		}
-
-
-
-
-
-
 
 	})
 
