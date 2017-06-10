@@ -253,7 +253,6 @@
            	}else{
            	var formData=new FormData(document.getElementById("form"));
            	formData.append('token',_this.token);
-           	alert(document.getElementById("content").value)
             var config={
               		headers:{'Content-Type':'multipart/form-data'}
             	       };
