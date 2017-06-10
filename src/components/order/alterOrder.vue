@@ -4,13 +4,13 @@
     <form id="form" v-show="showOrder">
   	  <header class="_head">
 			<img src="../../assets/common/images/back32.png" style="position:absolute;left:10px;top:10px;"  @click="back()">
-			<span style="font-size: 20px;">新建订单</span>
+			<span style="font-size: 20px;">修改订单</span>
 			<img src="../../assets/common/images/selected.png" style="position:absolute;right:10px;top:10px;" @click="subContent()">
 		</header>
 		
 		<div class="_top_block"></div>
 		<div id="_content" style="margin-top:15px;width:100%;height:auto;background: white;">
-		<div style="width:100%;height:45px;line-height: 45px;"  @click="enterSelectCustomer()">
+		<div style="width:100%;height:45px;line-height: 45px;" >
 			<span style="display: block;position: absolute;left:10px;">客户姓名</span><span style="position:absolute;right: 10px;">{{customer.custname}}</span>
 		</div>
 		
@@ -251,11 +251,13 @@
              	mui.alert('请先选择客户', '提示', function() {		   
 			 });
            	}else{
-           	var formData=new FormData(document.getElementById("#form"));
+           	var formData=new FormData(document.getElementById("form"));
            	formData.append('token',_this.token);
+           	alert(document.getElementById("content").value)
             var config={
               		headers:{'Content-Type':'multipart/form-data'}
             	       };
+
             axios.post(API.alterOrder,
                   formData,
                   config
@@ -306,7 +308,7 @@
                                      if(_this.s.ordertype==2){
                                      	 _this.order="维修";
                                      }
-							      	 $("#content").val(_this.s.orderdesc)
+                                     document.getElementById("content").value=_this.s.orderdesc
                                      _this.getCust(_this.s.ordercust)
 							      }, function(res){
                                        
