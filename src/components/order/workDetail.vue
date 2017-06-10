@@ -147,7 +147,10 @@
 						      .then(function(res){
 						      	console.log(res.data)
 						      	//将获取到的数据给vue对象
+						      	res.data.data.distributiontel="tel:"+res.data.data.distributiontel
+						      	res.data.data.constructiontel="tel:"+res.data.data.constructiontel
 						      	_this.order=res.data.data;
+
 						      	_this.getOrderType();
 						      }, function(res){
 						      //	console.log(res);
