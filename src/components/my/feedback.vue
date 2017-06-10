@@ -36,7 +36,7 @@
 					{{ index }} 
 				</div>
 
-				<a  class="file" style='display:inline-block;width:100px;height:100px' v-if='sh'>
+				<a  class="file" style='display:inline-block;width:100px;height:100px'>
 				    <input type="file" name="" id="file" accept= "image/*" capture= "camera">
 				</a>
 
@@ -64,7 +64,7 @@ import axios from 'axios'
 				return{
 					imgUrl:'',
 					items:[],
-					sh:true,
+					//sh:true,
 					desc:'',
 					content:''
 				}
@@ -153,7 +153,7 @@ import axios from 'axios'
 					 .then(function (response) {
 					 	if (response.data.code==0) {
 					 		mui.toast('感谢')
-					 		_this.$router.go(-1)
+					 		_this.$router.push('my')
 					 	}
 					 })
 
@@ -173,7 +173,8 @@ import axios from 'axios'
 	background-color:#fff;
     position: relative;
     display: inline-block;
-    background-image: url('../../assets/common/images/back32.png') ;
+    background-image: url('../../assets/common/images/bigadd.png') ;
+    background-size: 100px,100px;
     border: 1px solid #99D3F5;
     border-radius: 4px;
     padding: 4px 12px;
