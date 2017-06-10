@@ -84,11 +84,12 @@
 	
 
 
-<div style="width:100%;height:100%;opacity:1;z-index:99;position:fixed;top:0;left:0" v-if='fang' @click='fang=!fang'>
+<div style="width:100%;height:100%;z-index:98;position:fixed;top:0;left:0;background-color:black;opacity:0.5" v-if='fang' @click='fang=!fang'>
 
-      <img :src="fangdahou" style="display:inline;width:80%;margin-left:10%;margin-top:10%">
+     
 
     </div>
+     <img :src="fangdahou" style="z-index:99;width:80%;position:absolute;left:10%;top:5%;" v-if='fang' @click='fang=!fang'>
 
 	</div>
 </template>
