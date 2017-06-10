@@ -4,7 +4,7 @@
     <form id="form" v-show="showOrder">
   	  <header class="_head">
 			<img src="../../assets/common/images/back32.png" style="position:absolute;left:10px;top:10px;"  @click="back()">
-			<span style="font-size: 20px;">新建订单</span>
+			<span style="font-size: 20px;">修改订单</span>
 			<img src="../../assets/common/images/selected.png" style="position:absolute;right:10px;top:10px;" @click="subContent()">
 		</header>
 		
@@ -306,7 +306,7 @@
                                      if(_this.s.ordertype==2){
                                      	 _this.order="维修";
                                      }
-							      	 $("#content").val(_this.s.orderdesc)
+                                     document.getElementById("orderdesc").value=_this.s.orderdesc
                                      _this.getCust(_this.s.ordercust)
 							      }, function(res){
                                        
