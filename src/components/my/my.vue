@@ -84,22 +84,22 @@
 								<a href="#" class="mui-navigate-right">员工管理</a>
 							</li>
 							<li class="mui-table-view-cell" @click='noticeList()'>
-								<a href="#" class="mui-navigate-right">公告</a>
+								<a  class="mui-navigate-right">公告</a>
 							</li>
 							<li class="mui-table-view-cell" @click='employeePayList()' v-if='boss'>
-								<a href="#" class="mui-navigate-right">员工续费</a>
+								<a  class="mui-navigate-right">员工续费</a>
 							</li>
 							<li class="mui-table-view-cell" @click='myjoblist()' v-if='boss'>
-								<a href="#" class="mui-navigate-right">我的招聘</a>
+								<a class="mui-navigate-right">我的招聘</a>
 							</li>
-							<li class="mui-table-view-cell"  v-if='!boss' @click='classifyJobs()'>
-								<a href="#" class="mui-navigate-right">职位列表</a>
-							</li>
+						<!-- 	<li class="mui-table-view-cell"  v-if='!boss' @click='classifyJobs()'>
+							<a  class="mui-navigate-right">职位列表</a>
+						</li> -->
 							<li class="mui-table-view-cell" @click="invite()">
-								<a href="#" class="mui-navigate-right">邀请同事</a>
+								<a  class="mui-navigate-right">邀请同事</a>
 							</li>
 							<li class="mui-table-view-cell" @click='fb()'>
-								<a href="#"  class="mui-navigate-right">反馈</a>
+								<a  class="mui-navigate-right">反馈</a>
 							</li>
 						</ul>
 						

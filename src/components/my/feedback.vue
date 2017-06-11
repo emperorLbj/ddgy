@@ -3,7 +3,7 @@
 
 
 <header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" @click='back()'></a>
 			<button id="submit" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" @click='insert()'>发送</button>
 			<h1 class="mui-title">问题反馈</h1>
 		</header>
@@ -92,6 +92,9 @@ import axios from 'axios'
 					console.log(i)
 					this.items.splice(i,1)
 				
+				},
+				back:function(){
+					this.$router.push('my')
 				},
 				listener:function(){
 					var _this=this
