@@ -85,7 +85,7 @@
 							<li class="mui-table-view-cell">
 								<a  >
 									<img class="mui-media-object mui-pull-left " id="head-img" src="../../assets/common/images/heben.png">
-									<div @click='up(empname)'>
+									<div @click='up("empname")'>
 										{{s.empname}}
 										<p class='mui-ellipsis'>手机号:{{s.empphone}}</p>
 									</div>
@@ -95,7 +95,7 @@
 							
 						
 						<ul class="mui-table-view">
-							<li class="mui-table-view-cell" @click='up(empqq)'>
+							<li class="mui-table-view-cell" @click='up("empqq")'>
 								<a>QQ号<span class="mui-pull-right">{{s.empqq}}</span></a>
 							</li>
 							<li class="mui-table-view-cell">
@@ -107,11 +107,16 @@
 							<li class="mui-table-view-cell">
 								<a>邮箱地址<span class="mui-pull-right">{{s.empmail}}</span></a>
 							</li>
-							<li class="mui-table-view-cell" v-if='s.emppassword != ""' @click='up(emppassword)'>
+							<li class="mui-table-view-cell" v-if='s.emppassword == ""' @click='up("emppassword")'>
 								<a><span class="mui-pull-right">补全密码</span></a>
 							</li>
 							<li  @click='clear()' class="mui-table-view-cell">
 								<a>退出登录</a>
+								
+							</li>
+							<li  class="mui-table-view-cell" style="margin-top:20px" v-if='updates'>
+							
+								<div  style="display:fixed;bottom:0;z-index=99;width:100%;left:0"><input type="text" v-model.lazy='values' ><button @click='ok()'>确定</button></div>
 							</li>
 						</ul>
 					</div>
@@ -120,7 +125,7 @@
 			</div>
 		</div>
 
-		<div v-if='updates' style="display:fixed;top:50px;width:100%;left:0"><input type="text" v-model.lazy='values' ><button @click='ok()'>确定</button></div>
+		
 		
 		
 
@@ -154,14 +159,23 @@
 				var _this = this
            		var params = new URLSearchParams();
            		params.append('token', localStorage.getItem('token'));
-        		params.append(_this.keyname,_this.values)
+           		if(_this.keyname=='empname'){
+           			params.append('empname',_this.values)
+           		}
+           		else if(_this.keyname=='emppassword'){
+           			params.append('emppassword',_this.values)
+           		}
+           		else if(_this.keyname=='empqq'){
+           			params.append('empqq',_this.values)
+           		}
+        		
            		axios.post(API.updateEmp, params)
 
               
             .then(function (response) {
               
-                console.log(response.data);
-    				
+                //console.log(response.data);
+    			_this.values=''	
                 
                 if (response.data.code!=0) {
 

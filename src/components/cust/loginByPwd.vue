@@ -111,10 +111,12 @@
              	else{
              		if (res.data.user.empent !=1) {
              		sessionStorage.setItem('token',_this.to.token)
+             		localStorage.setItem('token',_this.to.token)
              		_this.$router.push('joinEnterprice3')
              		}
              		else{
              		sessionStorage.setItem('token',_this.to.token)
+             		localStorage.setItem('token',_this.to.token)
              		_this.$router.push('joinEnterprice2')
              		}
              		

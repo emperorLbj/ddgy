@@ -89,6 +89,10 @@ import {API} from '../../static/api'
 		methods:{
 			next:function(){
 			var _this=this
+			if (_this.empName =='' || _this.empPassword =='') {
+				mui.toast('请填写完整信息')
+				return
+			}
 		
 			var params = new URLSearchParams();
 			params.append('token', _this.token);

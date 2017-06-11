@@ -22,7 +22,7 @@
 			var _this=this
 			var a=localStorage.token
 
-			if (a) {
+			if (a != '') {
 				_this.getEmpInfo()
 			}
 			else{
