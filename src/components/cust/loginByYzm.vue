@@ -61,11 +61,7 @@
 				this.$router.push('loginByPwd') 
 			},
 
-
-
-
-			sendYzm:function () {
-				
+			sendYzm:function () {				
 				var _this = this;
 
 				  if(!(/^1[34578]\d{9}$/.test(_this.mobile))){ 
@@ -76,76 +72,80 @@
            		var params = new URLSearchParams();
            		params.append('empPhone', _this.mobile);
            		console.log( _this.mobile)
-           		axios.post(API.LoginSendYzm, params)
-
-              
-            .then(function (response) {
-                	//_this.isShow =1;
-                	//console.log(response.data);
-    				
-                	//console.log("aaa="+response.data.list[0].empname);
+           		axios.post(API.LoginSendYzm, params).then(function (response) {
                 	if (response.data.code!=0) {
                 		 mui.toast('该账号不存在，请注册')
-				}
-                	
-                	
-                })
-            .catch(function (error) {
-                  console.log(error);
+				}})
+            	.catch(function (error) {
+                  	console.log(error);
                 });
-
-
-
-
 			},
-	next:function(){
-			var _this=this
-		
-			var params = new URLSearchParams();
-			params.append('empPhone', _this.mobile);
-			params.append('empYzm', _this.yzm);
-			console.log( _this.mobile)
-			axios.post(API.loginByYzm, params)
-
-			.then(function (response) {
-				     	//_this.isShow =1;
-			console.log(response.data);
-				
-			//console.log("aaa="+response.data.list[0].empname);
-			if (response.data.code==0) {
-				if (response.data.user.empstate == 1) {
-             		localStorage.setItem('token',response.data.token)
-             		_this.$router.push('my')
-             	}
-             	else{
-             		if (response.data.user.empent !=1) {
-             		sessionStorage.setItem('token',response.data.token)
-             		_this.$router.push('joinEnterprice3')
-             		}
-             		else{
-             		sessionStorage.setItem('token',response.data.token)
-             		_this.$router.push('joinEnterprice2')
-             		}
-             	}
-				  }
-
-				
 
 
-			else {
 
-				  alert(response.data.msg)
+			getEmpInfo:function(){  //获取客户登陆信息，放到sessionStorage的s变量中，后期通过s获取用户信息
+					var _this = this;
+					var toke=localStorage.getItem('token');
 
-			}
+					var params = new URLSearchParams();
+					params.append('token', localStorage.getItem('token'));
+					
+					axios.post(API.getEmpInfo, params).then(function (response) {
+				     	if (response.data.code!=0) {
+				     		alert("错误")
+				     	}else{
+				     		var s=response.data.user
+				     		sessionStorage.setItem('empent',s.empent)
+				     		sessionStorage.setItem('userid',s.empid)
+				     		var str = JSON.stringify(s); 
+				     		sessionStorage.s=str;
+				     		if (response.data.user.emptype=='0000') {
+				     			_this.$router.push('firstMy')
+				     		}else{
+				     			_this.$router.push('my')
+				     		}
+				     		
+				     	}
+
+			     	})
+			 		.catch(function (error) {
+			       		console.log(error);
+			     	});
+			},
+
+
+			next:function(){
+				var _this=this
 			
-				     })
-				 .catch(function (error) {
-				       console.log(error);
-				     });
+				var params = new URLSearchParams();
+				params.append('empPhone', _this.mobile);
+				params.append('empYzm', _this.yzm);
+				console.log( _this.mobile)
+				axios.post(API.loginByYzm, params)
+				.then(function (response) {
+				console.log(response.data);
+					if (response.data.code==0) {
+						if (response.data.user.empstate == 1) {
+		             		localStorage.setItem('token',response.data.token)
+		             		//_this.$router.push('my')
+		             		_this.getEmpInfo();
 
-
-
-
+		             	}else{
+		             		if (response.data.user.empent !=1) {
+			             		sessionStorage.setItem('token',response.data.token)
+			             		_this.$router.push('joinEnterprice3')
+		             		}else{
+			             		sessionStorage.setItem('token',response.data.token)
+			             		_this.$router.push('joinEnterprice2')
+		             		}
+		             	}
+					}else {
+						  alert(response.data.msg)
+					}
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
 			},
 
 
@@ -158,8 +158,6 @@
 				background-color: #efeff4;
 			}
 			
-			
-
 			.inp::-ms-input-placeholder {
 			text-align: left;
 			}
@@ -175,9 +173,6 @@
 			.inp:input-placeholder {
 			text-align: left
 			}
-
-
-			
 
 			
 </style>

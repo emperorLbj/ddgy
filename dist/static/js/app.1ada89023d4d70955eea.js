@@ -6,9 +6,11 @@ webpackJsonp([0],[
 
 "use strict";
 /*定义API常量*/
-const IP = 'http://139.129.93.45:8090/api/';
+
+const IP = 'http://192.168.1.102/rrsb-0.0.1-SNAPSHOT/api/';
 /* unused harmony export IP */
 
+//export const IP ='http://192.168.1.102/api/'
 const API = {
 	LoginSendYzm: IP + 'LoginSendYzm',
 	login: IP + "login",
@@ -50,7 +52,7 @@ const API = {
 	payDetail: IP + 'payDetail',
 	getChooseEmpInfo: IP + 'getChooseEmpInfo',
 	updateEmployeeType: IP + 'updateEmployeeType',
-	addNotice: IP + 'addNotice',
+	//addNotice:IP+'addNotice',
 	noticeDetailByNoticeId: IP + 'noticeDetailByNoticeId',
 	noticeListByEntId: IP + 'noticeListByEntId',
 
@@ -16409,8 +16411,9 @@ const routes = [{
 }, {
   path: '/feedback',
   name: 'feedback',
-  meta: {
-    requireAuth: true },
+  /*meta: {
+       requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+   },*/
   component: __WEBPACK_IMPORTED_MODULE_51__components_my_feedback___default.a
 }, {
   path: '/firstMy',
@@ -18713,134 +18716,171 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-   data() {
-      return {
-         empName: '',
-         entName: '',
-         items: [],
-         token: '',
-         entProvice: '',
-         entCity: '',
-         entArea: '',
-         entAddress: '',
-         bz1: ''
-      };
-   },
-   methods: {
+    data() {
+        return {
+            empName: '',
+            entName: '',
+            items: [],
+            token: '',
+            entProvice: '',
+            entCity: '',
+            entArea: '',
+            entAddress: '',
+            bz1: ''
+        };
+    },
+    methods: {
 
-      next: function () {
-         this.$router.push("cust");
-      },
-      back: function () {
-         this.$router.push('addEP');
-      },
-      join: function () {
-         this.$router.push("joinEnterprice2");
-      },
-      AddEnterpriseInfo: function () {
-         var _this = this;
+        next: function () {
+            console.log("next.to cust");
+            this.$router.push("cust");
+        },
+        back: function () {
+            this.$router.push('addEP');
+        },
+        join: function () {
+            this.$router.push("joinEnterprice2");
+        },
 
-         var params = new URLSearchParams();
-         if (_this.empName == '') {
-            alert("姓名为空，请输入");
-            return;
-         }
-         if (_this.entName == '') {
-            alert("企业名称为空，请输入");
-            return;
-         }
-         if (_this.bz1 == '') {
-            alert("请选择公司主要业务");
-            return;
-         }
-         if (_this.entProvice == '') {
-            alert("请选择公司区域");
-            return;
-         }
-         if (_this.entAddress == '') {
-            alert("请输入详细地址");
-            return;
-         }
+        getEmpInfo: function () {
+            //获取客户登陆信息，放到sessionStorage的s变量中，后期通过s获取用户信息
+            var _this = this;
+            var toke = localStorage.getItem('token');
 
-         _this.token = sessionStorage.getItem('token');
-         localStorage.setItem('token', _this.token);
-         params.append('token', localStorage.getItem('token'));
-         params.append('empName', _this.empName);
-         params.append('entName', _this.entName);
-         params.append('entProvice', _this.entProvice);
-         params.append('entCity', _this.entCity);
-         params.append('entArea', _this.entArea);
-         params.append('entAddress', _this.entAddress);
-         params.append('bz1', _this.bz1);
-         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_1__static_api_js__["a" /* API */].AddEnterpriseInfo, params).then(function (response) {
-            //_this.isShow =1;
-            console.log(response.data);
-            _this.next();
-            //console.log("aaa="+response.data.list[0].empname);
-            /*_this.items = response.data.data[0].empname;*/
-         }).catch(function (error) {
-            console.log(error);
-         });
-      },
-      initDom: function () {
-         var _this = this;
-         (function ($, doc) {
-            $.init();
-            $.ready(function () {
-               //普通示例
-               var userPicker = new $.PopPicker();
-               userPicker.setData([{
-                  value: 'A',
-                  text: '通暖'
-               }, {
-                  value: 'B',
-                  text: '门窗'
-               }, {
-                  value: 'C',
-                  text: '软装'
-               }]);
-               var showUserPickerButton = doc.getElementById('showUserPicker');
-               //var userResult = doc.getElementById('userResult');
-               showUserPickerButton.addEventListener('tap', function (event) {
-                  userPicker.show(function (items) {
-                     document.getElementById("showq").innerText = items[0].text;
-                     _this.bz1 = items[0].text;
+            var params = new URLSearchParams();
+            params.append('token', localStorage.getItem('token'));
 
-                     //返回 false 可以阻止选择框的关闭
-                     //return false;
-                  });
-               }, false);
-               //-----------------------------------------
-
-               //-----------------------------------------
-               //					//级联示例
-               var cityPicker3 = new $.PopPicker({
-                  layer: 3
-               });
-               cityPicker3.setData(__WEBPACK_IMPORTED_MODULE_2__assets_common_js_city_data_3_js__["a" /* cityData3 */]);
-               var showCityPickerButton = doc.getElementById('showCityPicker3');
-               var cityResult3 = doc.getElementById('cityResult3');
-               showCityPickerButton.addEventListener('tap', function (event) {
-                  cityPicker3.show(function (items) {
-                     cityResult3.innerText = (items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[2] || {}).text;
-                     //console.log(items)
-                     _this.entProvice = items[0].text;
-                     _this.entCity = items[1].text;
-                     _this.entArea = items[2].text;
-                     //返回 false 可以阻止选择框的关闭
-                     //return false;
-                  });
-               }, false);
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_1__static_api_js__["a" /* API */].getEmpInfo, params).then(function (response) {
+                if (response.data.code != 0) {
+                    alert("错误");
+                } else {
+                    var s = response.data.user;
+                    sessionStorage.setItem('empent', s.empent);
+                    sessionStorage.setItem('userid', s.empid);
+                    var str = JSON.stringify(s);
+                    sessionStorage.s = str;
+                    if (response.data.user.emptype == '0000') {
+                        _this.$router.push('firstMy');
+                    } else {
+                        _this.$router.push('my'); //跳转到my界面
+                        //_this.next();  //跳转到cust界面
+                    }
+                }
+            }).catch(function (error) {
+                console.log(error);
             });
-         })(mui, document);
-      }
+        },
 
-   },
-   created() {
-      this.$nextTick(function () {
-         this.initDom();
-      });
-   }
+        AddEnterpriseInfo: function () {
+            var _this = this;
+
+            var params = new URLSearchParams();
+            if (_this.empName == '') {
+                alert("姓名为空，请输入");
+                return;
+            }
+            if (_this.entName == '') {
+                alert("企业名称为空，请输入");
+                return;
+            }
+            if (_this.bz1 == '') {
+                alert("请选择公司主要业务");
+                return;
+            }
+            if (_this.entProvice == '') {
+                alert("请选择公司区域");
+                return;
+            }
+            if (_this.entAddress == '') {
+                alert("请输入详细地址");
+                return;
+            }
+
+            _this.token = sessionStorage.getItem('token');
+            localStorage.setItem('token', _this.token);
+            params.append('token', localStorage.getItem('token'));
+            params.append('empName', _this.empName);
+            params.append('entName', _this.entName);
+            params.append('entProvice', _this.entProvice);
+            params.append('entCity', _this.entCity);
+            params.append('entArea', _this.entArea);
+            params.append('entAddress', _this.entAddress);
+            params.append('bz1', _this.bz1);
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_1__static_api_js__["a" /* API */].AddEnterpriseInfo, params).then(function (response) {
+                console.log("code=" + response.data.code);
+                if (response.data.code == 505) {
+                    //如家已经添加了该手机的企业，给出提示信息
+                    //alert(response.data.msg);
+                    mui.toast(response.data.msg);
+                } else {
+                    console.log(response.data); //如果成功之后继续向下执行
+                    console.log("go next");
+                    //_this.next();
+                    _this.getEmpInfo(); //更新sessionStorage中的用户信息
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        initDom: function () {
+            var _this = this;
+            (function ($, doc) {
+                $.init();
+                $.ready(function () {
+                    //普通示例
+                    var userPicker = new $.PopPicker();
+                    userPicker.setData([{
+                        value: 'A',
+                        text: '暖通'
+                    }, {
+                        value: 'B',
+                        text: '门窗'
+                    }, {
+                        value: 'C',
+                        text: '软装'
+                    }]);
+                    var showUserPickerButton = doc.getElementById('showUserPicker');
+                    //var userResult = doc.getElementById('userResult');
+                    showUserPickerButton.addEventListener('tap', function (event) {
+                        userPicker.show(function (items) {
+                            document.getElementById("showq").innerText = items[0].text;
+                            _this.bz1 = items[0].text;
+
+                            //返回 false 可以阻止选择框的关闭
+                            //return false;
+                        });
+                    }, false);
+                    //-----------------------------------------
+
+                    //-----------------------------------------
+                    //					//级联示例
+                    var cityPicker3 = new $.PopPicker({
+                        layer: 3
+                    });
+                    cityPicker3.setData(__WEBPACK_IMPORTED_MODULE_2__assets_common_js_city_data_3_js__["a" /* cityData3 */]);
+                    var showCityPickerButton = doc.getElementById('showCityPicker3');
+                    var cityResult3 = doc.getElementById('cityResult3');
+                    showCityPickerButton.addEventListener('tap', function (event) {
+                        cityPicker3.show(function (items) {
+                            cityResult3.innerText = (items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[2] || {}).text;
+                            //console.log(items)
+                            _this.entProvice = items[0].text;
+                            _this.entCity = items[1].text;
+                            _this.entArea = items[2].text;
+                            //返回 false 可以阻止选择框的关闭
+                            //return false;
+                        });
+                    }, false);
+                });
+            })(mui, document);
+        }
+
+    },
+    created() {
+        this.$nextTick(function () {
+            this.initDom();
+        });
+    }
 
 });
 
@@ -19321,6 +19361,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		next: function () {
 			var _this = this;
+			if (_this.empName == '' || _this.empPassword == '') {
+				mui.toast('请填写完整信息');
+				return;
+			}
 
 			var params = new URLSearchParams();
 			params.append('token', _this.token);
@@ -19804,65 +19848,90 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data() {
-    return {
-      s: {},
-      mobile: '',
-      password: '',
-      to: {}
-    };
-  },
-  methods: {
+	data() {
+		return {
+			s: {},
+			mobile: '',
+			password: '',
+			to: {}
+		};
+	},
+	methods: {
 
-    back: function () {
-      this.$router.push('home');
-    },
+		back: function () {
+			this.$router.push('home');
+		},
 
-    loginByYzm: function () {
-      this.$router.push('loginByYzm');
-    },
+		loginByYzm: function () {
+			this.$router.push('loginByYzm');
+		},
 
-    login: function () {
+		getEmpInfo: function () {
+			//获取客户登陆信息，放到sessionStorage的s变量中，后期通过s获取用户信息
+			var _this = this;
+			var toke = localStorage.getItem('token');
 
-      var _this = this;
+			var params = new URLSearchParams();
+			params.append('token', localStorage.getItem('token'));
 
-      if (!/^1[34578]\d{9}$/.test(_this.mobile)) {
-        mui.toast("手机号码有误，请重填");
-        return false;
-      }
+			__WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_1__static_api_js__["a" /* API */].getEmpInfo, params).then(function (response) {
+				if (response.data.code != 0) {
+					alert("错误");
+				} else {
+					var s = response.data.user;
+					sessionStorage.setItem('empent', s.empent);
+					sessionStorage.setItem('userid', s.empid);
+					var str = JSON.stringify(s);
+					sessionStorage.s = str;
+					if (response.data.user.emptype == '0000') {
+						_this.$router.push('firstMy');
+					} else {
+						_this.$router.push('my');
+					}
+				}
+			}).catch(function (error) {
+				console.log(error);
+			});
+		},
 
-      var params = new URLSearchParams();
+		login: function () {
+			console.log("begin loginByPwd ...");
+			var _this = this;
 
-      params.append('mobile', _this.mobile);
+			if (!/^1[34578]\d{9}$/.test(_this.mobile)) {
+				mui.toast("手机号码有误，请重填");
+				return false;
+			}
+			var params = new URLSearchParams();
+			params.append('mobile', _this.mobile);
+			params.append('password', _this.password);
 
-      params.append('password', _this.password);
-      // alert(_this.mobile+this.password)
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_1__static_api_js__["a" /* API */].login, params).then(function (res) {
-        //将获取到的数据给vue对象
-        _this.to = res.data;
-        // console.log(_this.to.code+_this.to.token);
-        //console.log(res);
+			__WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_1__static_api_js__["a" /* API */].login, params).then(function (res) {
+				//将获取到的数据给vue对象
+				_this.to = res.data;
+				if (_this.to.code === 0) {
 
-        if (_this.to.code === 0) {
-          if (res.data.user.empstate == 1) {
-            localStorage.setItem('token', _this.to.token);
-            _this.$router.push('my');
-          } else {
-            if (res.data.user.empent != 1) {
-              sessionStorage.setItem('token', _this.to.token);
-              _this.$router.push('joinEnterprice3');
-            } else {
-              sessionStorage.setItem('token', _this.to.token);
-              _this.$router.push('joinEnterprice2');
-            }
-          }
-        }
-      });
+					console.log("login success put token in localStorage token=" + _this.to.token);
+					if (res.data.user.empstate == 1) {
+						localStorage.setItem('token', _this.to.token);
+						//_this.$router.push('my')
+						_this.getEmpInfo();
+					} else {
+						if (res.data.user.empent != 1) {
+							sessionStorage.setItem('token', _this.to.token);
+							localStorage.setItem('token', _this.to.token);
+							_this.$router.push('joinEnterprice3');
+						} else {
+							sessionStorage.setItem('token', _this.to.token);
+							localStorage.setItem('token', _this.to.token);
+							_this.$router.push('joinEnterprice2');
+						}
+					}
+				}
+			});
+		}
 
-      // this.$router.push('cust')
-    }
-
-  }
+	}
 });
 
 /***/ }),
@@ -19935,7 +20004,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 
 		sendYzm: function () {
-
 			var _this = this;
 
 			if (!/^1[34578]\d{9}$/.test(_this.mobile)) {
@@ -19947,10 +20015,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			params.append('empPhone', _this.mobile);
 			console.log(_this.mobile);
 			__WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_1__static_api_js__["a" /* API */].LoginSendYzm, params).then(function (response) {
-				//_this.isShow =1;
-				//console.log(response.data);
-
-				//console.log("aaa="+response.data.list[0].empname);
 				if (response.data.code != 0) {
 					mui.toast('该账号不存在，请注册');
 				}
@@ -19958,6 +20022,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				console.log(error);
 			});
 		},
+
+		getEmpInfo: function () {
+			//获取客户登陆信息，放到sessionStorage的s变量中，后期通过s获取用户信息
+			var _this = this;
+			var toke = localStorage.getItem('token');
+
+			var params = new URLSearchParams();
+			params.append('token', localStorage.getItem('token'));
+
+			__WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_1__static_api_js__["a" /* API */].getEmpInfo, params).then(function (response) {
+				if (response.data.code != 0) {
+					alert("错误");
+				} else {
+					var s = response.data.user;
+					sessionStorage.setItem('empent', s.empent);
+					sessionStorage.setItem('userid', s.empid);
+					var str = JSON.stringify(s);
+					sessionStorage.s = str;
+					if (response.data.user.emptype == '0000') {
+						_this.$router.push('firstMy');
+					} else {
+						_this.$router.push('my');
+					}
+				}
+			}).catch(function (error) {
+				console.log(error);
+			});
+		},
+
 		next: function () {
 			var _this = this;
 
@@ -19966,14 +20059,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			params.append('empYzm', _this.yzm);
 			console.log(_this.mobile);
 			__WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_1__static_api_js__["a" /* API */].loginByYzm, params).then(function (response) {
-				//_this.isShow =1;
 				console.log(response.data);
-
-				//console.log("aaa="+response.data.list[0].empname);
 				if (response.data.code == 0) {
 					if (response.data.user.empstate == 1) {
 						localStorage.setItem('token', response.data.token);
-						_this.$router.push('my');
+						//_this.$router.push('my')
+						_this.getEmpInfo();
 					} else {
 						if (response.data.user.empent != 1) {
 							sessionStorage.setItem('token', response.data.token);
@@ -19984,7 +20075,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						}
 					}
 				} else {
-
 					alert(response.data.msg);
 				}
 			}).catch(function (error) {
@@ -20441,6 +20531,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	created() {
 		var _this = this;
 		var a = localStorage.token;
+		console.log("token in getSession=" + a);
 
 		if (a) {
 			_this.getEmpInfo();
@@ -20450,20 +20541,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	methods: {
 		getEmpInfo: function () {
+			//获取客户登陆信息，放到sessionStorage的s变量中，后期通过s获取用户信息
 			var _this = this;
-
 			var toke = localStorage.getItem('token');
 
 			var params = new URLSearchParams();
-
 			params.append('token', localStorage.getItem('token'));
 
 			__WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_1__static_api_js__["a" /* API */].getEmpInfo, params).then(function (response) {
-				//console.log('asdasdasd'+response.data.code)
 				if (response.data.code != 0) {
 					alert("错误");
 				} else {
-
 					var s = response.data.user;
 					sessionStorage.setItem('empent', s.empent);
 					sessionStorage.setItem('userid', s.empid);
@@ -21614,6 +21702,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			console.log(i);
 			this.items.splice(i, 1);
 		},
+		back: function () {
+			this.$router.push('my');
+		},
 		listener: function () {
 			var _this = this;
 			document.getElementById('file').addEventListener('change', function () {
@@ -21815,10 +21906,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -21844,10 +21931,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var _this = this;
 			var params = new URLSearchParams();
 			params.append('token', localStorage.getItem('token'));
-			params.append(_this.keyname, _this.values);
+			if (_this.keyname == 'empname') {
+				params.append('empname', _this.values);
+			} else if (_this.keyname == 'emppassword') {
+				params.append('emppassword', _this.values);
+			} else if (_this.keyname == 'empqq') {
+				params.append('empqq', _this.values);
+			}
+
 			__WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_1__static_api_js__["a" /* API */].updateEmp, params).then(function (response) {
 
-				console.log(response.data);
+				//console.log(response.data);
+				_this.values = '';
 
 				if (response.data.code != 0) {
 
@@ -22169,9 +22264,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 
@@ -22251,6 +22343,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 		clear: function () {
 			localStorage.removeItem('token');
+			console.log("token has been token! becuse you have clicked logout button");
+			console.log("token=" + localStorage.getItem("token"));
 			this.$router.push('login');
 		},
 		invite: function () {
@@ -22396,6 +22490,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 //向后台接口发送数据，并获取值
 
@@ -22406,7 +22509,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             items: [],
             isShow: 1,
             noticeEntity: {},
-            token: ''
+            token: '',
+            imgUrl: '',
+            itemss: [],
+            noticetitle: '',
+            noticecontent: '',
+            imgs: [],
+            fangda: false,
+            url: ''
 
         };
     },
@@ -22416,40 +22526,99 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //表示页面渲染完成之后
             //this.initDom();
             this.noticeListByEntId();
+            this.listener();
         });
     },
     methods: {
+        fangdahou: function (i) {
+            this.url = i;
+            this.fangda = !this.fangda;
+        },
+        rmar: function (i) {
+            console.log(i);
+            this.itemss.splice(i, 1);
+        },
+        escape2Html: function (str) {
+            var arrEntities = { 'lt': '<', 'gt': '>', 'nbsp': ' ', 'amp': '&', 'quot': '"' };
+            return str.replace(/&(lt|gt|nbsp|amp|quot);/ig, function (all, t) {
+                return arrEntities[t];
+            });
+        },
+        listener: function () {
+            var _this = this;
+            document.getElementById('file').addEventListener('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    compress(this.result);
+                };
+                reader.readAsDataURL(this.files[0]);
+            }, false);
+
+            var compress = function (res) {
+                var img = new Image(),
+                    maxH = 720;
+                img.onload = function () {
+                    var cvs = document.createElement('canvas'),
+                        ctx = cvs.getContext('2d');
+                    if (img.height > maxH) {
+                        img.width *= maxH / img.height;
+                        img.height = maxH;
+                    }
+                    cvs.width = img.width;
+                    cvs.height = img.height;
+                    ctx.clearRect(0, 0, cvs.width, cvs.height);
+                    ctx.drawImage(img, 0, 0, img.width, img.height);
+                    var dataUrl = cvs.toDataURL('image/jpeg', 0.7);
+                    _this.imgUrl = dataUrl;
+                    //console.log(_this.imgUrl)
+
+                    _this.itemss.push(dataUrl);
+                    // 上传略
+                    //document.write(dataUrl)
+                };
+                img.src = res;
+            };
+        },
+
         addNotice2: function () {
             //在这里验证是否输入，如果没有输入，则提示后直接返回
             //console.log("aaa="+document.getElementById("title").value);
-            if (document.getElementById("title").value == "") {
+            var _this = this;
+
+            if (_this.noticetitle == "") {
                 mui.alert('请填写公告标题', '智能工单', function () {});
                 return;
             }
 
-            if (document.getElementById("content").value == "") {
+            if (_this.noticecontent == "") {
                 mui.alert('请填写公告内容', '智能工单', function () {});
                 return;
             }
 
-            var _this = this;
-            console.log("sendUnameByForm..");
-            //将表单对象封装成一个js对象
-            var formData = new FormData(document.getElementById("frm1"));
-            //设置内容类型为：multipart/form-data
-            var config = {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            };
+            /*console.log("sendUnameByForm..");
+              //将表单对象封装成一个js对象
+            var formData=new FormData(document.getElementById("frm1"));
+              //设置内容类型为：multipart/form-data
+            var config={
+                    headers:{'Content-Type':'multipart/form-data'}
+                };*/
             //提交文件对象只能是post方法
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_0__static_api_js__["a" /* API */].addNotice, formData, config).then(function (response) {
-                //alert(123);
+            var b = JSON.stringify(_this.itemss);
+            var param = new URLSearchParams();
+            param.append('token', _this.token);
+            param.append('noticetitle', _this.noticetitle);
+            param.append('noticecontent', _this.noticecontent);
+            param.append('noticeaddress', b);
+            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post(__WEBPACK_IMPORTED_MODULE_0__static_api_js__["a" /* API */].noticeAdd, param).then(function (response) {
                 _this.isShow = 1;
                 _this.noticeListByEntId();
                 //字段清空
-                document.getElementById("title").value = "";
-                document.getElementById("content").value = "";
-                document.getElementById("pic").value = "";
-                obj.outerHTML = obj.outerHTML;
+
+                _this.noticetitle = '';
+                _this.noticecontent = '';
+                //document.getElementById("pic").value="";
+                _this.itemss.length = 0;
+                //obj.outerHTML=obj.outerHTML; 
             }).catch(function (error) {
                 console.log(error);
             });
@@ -22466,7 +22635,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //this.$router.push('noticeDetail')
             //发送http请求，获取对应的noticeEntity对象，然后将entity对象的值绑定到详情里面
 
-            console.log("nid===" + nid);
+            // console.log("nid==="+nid);
             var _this = this;
             __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get(__WEBPACK_IMPORTED_MODULE_0__static_api_js__["a" /* API */].noticeDetailByNoticeId, {
                 params: {
@@ -22475,8 +22644,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }).then(function (response) {
                 _this.isShow = 2;
-                console.log("123");
+                //console.log("123");
                 _this.noticeEntity = response.data.data;
+                var b = _this.escape2Html(_this.noticeEntity.noticeaddress);
+                _this.imgs = JSON.parse(b);
             }).catch(function (error) {
                 console.log(error);
             });
@@ -25647,7 +25818,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				document.getElementById('title').innerText = "执行中";
 			}
 			if (id == 3) {
-				document.getElementById('title').innerText = "发布中";
+				document.getElementById('title').innerText = "已完成";
 			}
 			if (id == 4) {
 				document.getElementById('title').innerText = "我的发布";
@@ -26019,7 +26190,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-__WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].config.productionTip = true;
+__WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].config.productionTip = false;
 
 /* eslint-disable no-new */
 new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
@@ -32814,11 +32985,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("     \n          " + _vm._s(_vm.noticeEntity.noticeempname) + _vm._s(_vm.noticeEntity.noticetime) + "\n        ")]), _vm._v(" "), _c('div', {
     staticClass: "_line"
-  }), _vm._v(" "), _c('img', {
-    attrs: {
-      "src": _vm.noticeEntity.noticeaddress
-    }
-  })])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _vm._l((_vm.imgs), function(s) {
+    return _c('img', {
+      staticStyle: {
+        "width": "40%",
+        "margin-left": "4%"
+      },
+      attrs: {
+        "src": s
+      },
+      on: {
+        "click": function($event) {
+          _vm.fangdahou(s)
+        }
+      }
+    })
+  })], 2)]), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -32884,40 +33066,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "height": "8px"
     }
-  }), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "_line"
   }), _vm._v(" "), _c('div', {
-    staticStyle: {
-      "width": "100%",
-      "height": "150px",
-      "line-height": "45px",
-      "margin-top": "2px"
-    }
-  }, [_c('textarea', {
-    staticStyle: {
-      "position": "absolute",
-      "width": "100%",
-      "height": "150px",
-      "border": "0px"
-    },
-    attrs: {
-      "placeholder": "请填写公告内容",
-      "name": "content",
-      "id": "content"
-    }
-  }), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "hidden",
-      "name": "token"
-    },
-    domProps: {
-      "value": _vm.token
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "_line"
-  }), _vm._v(" "), _vm._m(1)])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
     staticStyle: {
       "width": "100%",
       "height": "45px",
@@ -32935,6 +33084,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "right": "10px"
     }
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.noticetitle),
+      expression: "noticetitle"
+    }],
     staticStyle: {
       "border": "0px",
       "width": "250px",
@@ -32943,28 +33098,122 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "text",
       "placeholder": "请输入标题",
-      "name": "title",
-      "id": "title"
+      "name": "title"
+    },
+    domProps: {
+      "value": (_vm.noticetitle)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.noticetitle = $event.target.value
+      }
     }
-  })])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "_line"
+  }), _vm._v(" "), _c('div', {
     staticStyle: {
       "width": "100%",
-      "height": "45px",
+      "height": "150px",
       "line-height": "45px",
-      "background": "white"
+      "margin-top": "2px"
     }
-  }, [_c('input', {
+  }, [_c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.noticecontent),
+      expression: "noticecontent"
+    }],
     staticStyle: {
-      "border": "0px",
-      "margin-top": "10px",
-      "margin-left": "10px"
+      "position": "absolute",
+      "width": "100%",
+      "height": "150px",
+      "border": "0px"
     },
     attrs: {
+      "placeholder": "请填写公告内容",
+      "name": "content"
+    },
+    domProps: {
+      "value": (_vm.noticecontent)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.noticecontent = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "_line"
+  }), _vm._v(" "), _vm._l((_vm.itemss), function(item, index) {
+    return _c('div', {
+      staticStyle: {
+        "display": "inline-block",
+        "width": "100px",
+        "height": "100px",
+        "overflow": "hidden",
+        "line-height": "150px"
+      },
+      on: {
+        "click": function($event) {
+          _vm.rmar(index)
+        }
+      }
+    }, [_c('img', {
+      staticStyle: {
+        "width": "100px"
+      },
+      attrs: {
+        "src": item
+      }
+    }), _vm._v("\n        " + _vm._s(index) + " \n      ")])
+  }), _vm._v(" "), _vm._m(0)], 2)])]), _vm._v(" "), (_vm.fangda) ? _c('div', {
+    staticStyle: {
+      "width": "100%",
+      "height": "100%",
+      "background": "black",
+      "opacity": "0.4",
+      "position": "absolute",
+      "top": "0",
+      "left": "0"
+    },
+    on: {
+      "click": function($event) {
+        _vm.fangda = !_vm.fangda
+      }
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.fangda) ? _c('img', {
+    staticStyle: {
+      "width": "100%",
+      "position": "fixed",
+      "top": "40px",
+      "left": "0"
+    },
+    attrs: {
+      "src": _vm.url
+    },
+    on: {
+      "click": function($event) {
+        _vm.fangda = !_vm.fangda
+      }
+    }
+  }) : _vm._e()])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
+    staticClass: "file",
+    staticStyle: {
+      "display": "inline-block",
+      "width": "100px",
+      "height": "100px"
+    }
+  }, [_c('input', {
+    attrs: {
       "type": "file",
-      "name": "pic",
-      "id": "pic"
+      "name": "",
+      "id": "file",
+      "accept": "image/*",
+      "capture": "camera"
     }
   })])
 }]}
@@ -33404,48 +33653,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mui-media-body"
   }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(_vm.s.empname) + "\r\n\t\t\t\t\t\t\t\t\t\t"), _c('p', {
     staticClass: "mui-ellipsis"
-  }, [_vm._v("手机号:" + _vm._s(_vm.s.empphone))])])])])]), _vm._v(" "), _c('div', [_c('ul', {
-    staticClass: "mui-table-view mui-grid-view mui-grid-9",
-    staticStyle: {
-      "background": "#FFFFFF"
-    }
-  }, [_c('li', {
-    staticClass: "mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"
-  }, [_c('a', {
-    on: {
-      "click": function($event) {
-        _vm.b('暖通')
-      }
-    }
-  }, [_c('span', {
-    staticClass: "mui-icon mui-icon-home"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "mui-media-body"
-  }, [_vm._v("暖通")])])]), _vm._v(" "), _c('li', {
-    staticClass: "mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"
-  }, [_c('a', {
-    on: {
-      "click": function($event) {
-        _vm.b('门窗')
-      }
-    }
-  }, [_c('span', {
-    staticClass: "mui-icon mui-icon-home"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "mui-media-body"
-  }, [_vm._v("门窗")])])]), _vm._v(" "), _c('li', {
-    staticClass: "mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"
-  }, [_c('a', {
-    on: {
-      "click": function($event) {
-        _vm.b('软装')
-      }
-    }
-  }, [_c('span', {
-    staticClass: "mui-icon mui-icon-home"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "mui-media-body"
-  }, [_vm._v("软装")])])])])]), _vm._v(" "), _c('ul', {
+  }, [_vm._v("手机号:" + _vm._s(_vm.s.empphone))])])])])]), _vm._v(" "), _c('ul', {
     staticClass: "mui-table-view mui-table-view-chevron"
   }, [_c('li', {
     staticClass: "mui-table-view-cell"
@@ -33501,7 +33709,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('div', {
     on: {
       "click": function($event) {
-        _vm.up(_vm.empname)
+        _vm.up("empname")
       }
     }
   }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(_vm.s.empname) + "\r\n\t\t\t\t\t\t\t\t\t\t"), _c('p', {
@@ -33512,7 +33720,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mui-table-view-cell",
     on: {
       "click": function($event) {
-        _vm.up(_vm.empqq)
+        _vm.up("empqq")
       }
     }
   }, [_c('a', [_vm._v("QQ号"), _c('span', {
@@ -33532,11 +33740,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mui-table-view-cell"
   }, [_c('a', [_vm._v("邮箱地址"), _c('span', {
     staticClass: "mui-pull-right"
-  }, [_vm._v(_vm._s(_vm.s.empmail))])])]), _vm._v(" "), (_vm.s.emppassword != "") ? _c('li', {
+  }, [_vm._v(_vm._s(_vm.s.empmail))])])]), _vm._v(" "), (_vm.s.emppassword == "") ? _c('li', {
     staticClass: "mui-table-view-cell",
     on: {
       "click": function($event) {
-        _vm.up(_vm.emppassword)
+        _vm.up("emppassword")
       }
     }
   }, [_vm._m(2)]) : _vm._e(), _vm._v(" "), _c('li', {
@@ -33546,10 +33754,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.clear()
       }
     }
-  }, [_c('a', [_vm._v("退出登录")])])])])])])]) : _vm._e(), _vm._v(" "), (_vm.updates) ? _c('div', {
+  }, [_c('a', [_vm._v("退出登录")])]), _vm._v(" "), (_vm.updates) ? _c('li', {
+    staticClass: "mui-table-view-cell",
+    staticStyle: {
+      "margin-top": "20px"
+    }
+  }, [_c('div', {
     staticStyle: {
       "display": "fixed",
-      "top": "50px",
+      "bottom": "0",
       "width": "100%",
       "left": "0"
     }
@@ -33580,7 +33793,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.ok()
       }
     }
-  }, [_vm._v("确定")])]) : _vm._e()])
+  }, [_vm._v("确定")])])]) : _vm._e()])])])])]) : _vm._e()])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: " mui-bar mui-bar-nav"
@@ -35074,48 +35287,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\r\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(_vm.s.empname) + "\r\n\t\t\t\t\t\t\t\t\t\t"), _c('p', {
     staticClass: "mui-ellipsis"
-  }, [_vm._v("手机号:" + _vm._s(_vm.s.empphone))])])])])]), _vm._v(" "), _c('div', [_c('ul', {
-    staticClass: "mui-table-view mui-grid-view mui-grid-9",
-    staticStyle: {
-      "background": "#FFFFFF"
-    }
-  }, [_c('li', {
-    staticClass: "mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"
-  }, [_c('a', {
-    on: {
-      "click": function($event) {
-        _vm.b('暖通')
-      }
-    }
-  }, [_c('span', {
-    staticClass: "mui-icon mui-icon-home"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "mui-media-body"
-  }, [_vm._v("暖通")])])]), _vm._v(" "), _c('li', {
-    staticClass: "mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"
-  }, [_c('a', {
-    on: {
-      "click": function($event) {
-        _vm.b('门窗')
-      }
-    }
-  }, [_c('span', {
-    staticClass: "mui-icon mui-icon-home"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "mui-media-body"
-  }, [_vm._v("门窗")])])]), _vm._v(" "), _c('li', {
-    staticClass: "mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"
-  }, [_c('a', {
-    on: {
-      "click": function($event) {
-        _vm.b('软装')
-      }
-    }
-  }, [_c('span', {
-    staticClass: "mui-icon mui-icon-home"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "mui-media-body"
-  }, [_vm._v("软装")])])])])]), _vm._v(" "), _c('ul', {
+  }, [_vm._v("手机号:" + _vm._s(_vm.s.empphone))])])])])]), _vm._v(" "), _c('ul', {
     staticClass: "mui-table-view mui-table-view-chevron"
   }, [(_vm.boss) ? _c('li', {
     staticClass: "mui-table-view-cell",
@@ -35137,10 +35309,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('a', {
-    staticClass: "mui-navigate-right",
-    attrs: {
-      "href": "#"
-    }
+    staticClass: "mui-navigate-right"
   }, [_vm._v("公告")])]), _vm._v(" "), (_vm.boss) ? _c('li', {
     staticClass: "mui-table-view-cell",
     on: {
@@ -35149,10 +35318,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('a', {
-    staticClass: "mui-navigate-right",
-    attrs: {
-      "href": "#"
-    }
+    staticClass: "mui-navigate-right"
   }, [_vm._v("员工续费")])]) : _vm._e(), _vm._v(" "), (_vm.boss) ? _c('li', {
     staticClass: "mui-table-view-cell",
     on: {
@@ -35161,23 +35327,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('a', {
-    staticClass: "mui-navigate-right",
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("我的招聘")])]) : _vm._e(), _vm._v(" "), (!_vm.boss) ? _c('li', {
-    staticClass: "mui-table-view-cell",
-    on: {
-      "click": function($event) {
-        _vm.classifyJobs()
-      }
-    }
-  }, [_c('a', {
-    staticClass: "mui-navigate-right",
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("职位列表")])]) : _vm._e(), _vm._v(" "), _c('li', {
+    staticClass: "mui-navigate-right"
+  }, [_vm._v("我的招聘")])]) : _vm._e(), _vm._v(" "), _c('li', {
     staticClass: "mui-table-view-cell",
     on: {
       "click": function($event) {
@@ -35185,10 +35336,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('a', {
-    staticClass: "mui-navigate-right",
-    attrs: {
-      "href": "#"
-    }
+    staticClass: "mui-navigate-right"
   }, [_vm._v("邀请同事")])]), _vm._v(" "), _c('li', {
     staticClass: "mui-table-view-cell",
     on: {
@@ -35197,10 +35345,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('a', {
-    staticClass: "mui-navigate-right",
-    attrs: {
-      "href": "#"
-    }
+    staticClass: "mui-navigate-right"
   }, [_vm._v("反馈")])])])])])])]) : _vm._e(), _vm._v(" "), (!_vm.show) ? _c('div', {
     attrs: {
       "id": "account"
@@ -35837,7 +35982,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', [_c('header', {
     staticClass: "mui-bar mui-bar-nav"
   }, [_c('a', {
-    staticClass: "mui-action-back mui-icon mui-icon-left-nav mui-pull-left"
+    staticClass: "mui-icon mui-icon-left-nav mui-pull-left",
+    on: {
+      "click": function($event) {
+        _vm.back()
+      }
+    }
   }), _vm._v(" "), _c('button', {
     staticClass: "mui-btn mui-btn-blue mui-btn-link mui-pull-right",
     attrs: {
@@ -36713,4 +36863,4 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 
 /***/ })
 ],[106]);
-//# sourceMappingURL=app.9d72b56dbd6b5bc423bc.js.map
+//# sourceMappingURL=app.1ada89023d4d70955eea.js.map

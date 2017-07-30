@@ -26,12 +26,9 @@
 								</a>
 							</li>
 						</ul>
-				<div >
+				<!-- <div >
 							<ul class="mui-table-view mui-grid-view mui-grid-9" style="background: #FFFFFF;">
-					           <!--  <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" @click='orderHome()'><a >
-					                   <span class="mui-icon mui-icon-home"></span>
-					                   <div class="mui-media-body">工单</div></a></li>
-					            -->
+					          
 
 					            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" ><a  @click="b('暖通')">
 					            		<span class="mui-icon mui-icon-home"></span>
@@ -43,7 +40,7 @@
 
 					            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" ><a @click="b('软装')">
 					            		<span class="mui-icon mui-icon-home"></span>
-					                    <div class="mui-media-body" >软装</div></a></li>
+					                    <div class="mui-media-body" >软装</div></a></li> -->
 
 
 <!-- 
@@ -77,8 +74,8 @@
 					                    <span class="mui-icon mui-icon-search"></span>
 					                    <div class="mui-media-body">邀请同事</div></a></li> -->
 
-					        </ul> 
-						</div>  
+					    <!--     </ul> 
+						</div>  --> 
 						<ul class="mui-table-view mui-table-view-chevron">
 							<li class="mui-table-view-cell" v-if='boss' @click="employeeList()">
 								<a href="#" class="mui-navigate-right">员工管理</a>
@@ -248,6 +245,8 @@
 			
 			clear:function () {
 				localStorage.removeItem('token');
+				console.log("token has been token! becuse you have clicked logout button");
+				console.log("token="+localStorage.getItem("token"));
 				this.$router.push('login')
 			},
 			 invite:function() {

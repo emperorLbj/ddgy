@@ -105,7 +105,7 @@
               	document.getElementById('title').innerText="执行中";
               }
               if(id==3){
-              	document.getElementById('title').innerText="发布中";
+              	document.getElementById('title').innerText="已完成";
               }
               if(id==4){
               	document.getElementById('title').innerText="我的发布";

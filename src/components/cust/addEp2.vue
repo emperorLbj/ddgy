@@ -85,6 +85,7 @@
     	methods:{
 
     		next:function(){
+                console.log("next.to cust");
     			this.$router.push("cust");
     		},
     		back:function(){
@@ -93,6 +94,39 @@
     		join:function(){
     			this.$router.push("joinEnterprice2")
     		},
+
+            getEmpInfo:function(){  //获取客户登陆信息，放到sessionStorage的s变量中，后期通过s获取用户信息
+                    var _this = this;
+                    var toke=localStorage.getItem('token');
+
+                    var params = new URLSearchParams();
+                    params.append('token', localStorage.getItem('token'));
+                    
+                    axios.post(API.getEmpInfo, params).then(function (response) {
+                        if (response.data.code!=0) {
+                            alert("错误")
+                        }else{
+                            var s=response.data.user
+                            sessionStorage.setItem('empent',s.empent)
+                            sessionStorage.setItem('userid',s.empid)
+                            var str = JSON.stringify(s); 
+                            sessionStorage.s=str;
+                            if (response.data.user.emptype=='0000') {
+                                _this.$router.push('firstMy')
+                            }else{
+                                _this.$router.push('my'); //跳转到my界面
+                                //_this.next();  //跳转到cust界面
+
+                            }
+                            
+                        }
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+
     		AddEnterpriseInfo:function(){
     	 	 		var _this = this;
 
@@ -134,11 +168,19 @@
     	 	    	axios.post(API.AddEnterpriseInfo,params)
     	 	       
     	 	      .then(function (response) {
-    	 	      	//_this.isShow =1;
-    	 	      	console.log(response.data);
-    				_this.next();
-    	 	      	//console.log("aaa="+response.data.list[0].empname);
-    	 	      	/*_this.items = response.data.data[0].empname;*/
+                    console.log("code="+response.data.code);
+                    if(response.data.code==505){ //如家已经添加了该手机的企业，给出提示信息
+                        //alert(response.data.msg);
+                        mui.toast(response.data.msg);
+
+                    }else {
+                        console.log(response.data); //如果成功之后继续向下执行
+                        console.log("go next");
+                        //_this.next();
+                        _this.getEmpInfo(); //更新sessionStorage中的用户信息
+                    }
+ 
+    	 	      	
     	 	      })
     	 	      .catch(function (error) {
     	 	        console.log(error);
@@ -153,7 +195,7 @@
     	 	    					var userPicker = new $.PopPicker();
     	 	    					userPicker.setData([{
     	 	    						value: 'A',
-    	 	    						text: '通暖'
+    	 	    						text: '暖通'
     	 	    					}, {
     	 	    						value: 'B',
     	 	    						text: '门窗'

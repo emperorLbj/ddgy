@@ -26,12 +26,9 @@
 								</a>
 							</li>
 						</ul>
-				<div >
+<!-- 				<div >
 							<ul class="mui-table-view mui-grid-view mui-grid-9" style="background: #FFFFFF;">
-					           <!--  <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" @click='orderHome()'><a >
-					                   <span class="mui-icon mui-icon-home"></span>
-					                   <div class="mui-media-body">工单</div></a></li>
-					            -->
+					         
 					         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" ><a  @click="b('暖通')">
 					            		<span class="mui-icon mui-icon-home"></span>
 					                    <div class="mui-media-body" >暖通</div></a></li>
@@ -44,15 +41,9 @@
 					            		<span class="mui-icon mui-icon-home"></span>
 					                    <div class="mui-media-body" >软装</div></a></li>
 
-
-					           
-
-
-					          	
-					          
-
 					        </ul> 
-						</div>  
+					</div>  --> 
+					
 						<ul class="mui-table-view mui-table-view-chevron">
 							
 							<li class="mui-table-view-cell">
